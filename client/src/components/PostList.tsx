@@ -6,13 +6,21 @@ import CommentList from "./CommentList";
 type Post = {
   id: string;
   title: string;
+  comments: Comments[];
+};
+
+export type Comments = {
+  id: string;
+  content: string;
+  status: string;
 };
 
 const PostList = () => {
   const [posts, setPosts] = useState<{ [key: string]: Post }>({});
 
   const fetchPosts = async () => {
-    const res = await axios.get("http://localhost:4000/posts");
+    const res = await axios.get("http://localhost:4002/posts");
+
     setPosts(res.data);
   };
 
@@ -29,7 +37,7 @@ const PostList = () => {
         <h3 className="text-sm font-bold">{post.title}</h3>
         <hr className="w-full" />
         <div className="w-full text-left">
-          <CommentList postId={post.id} />
+          <CommentList comments={post.comments} />
         </div>
         <hr className="w-full" />
         <CommentCreate postId={post.id} />
