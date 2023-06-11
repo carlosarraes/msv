@@ -9,9 +9,18 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
+type Event = {
+  type: string;
+  data: any;
+};
+
+const events: Event[] = [];
+
 app.post("/events", async (req: Request, res: Response) => {
   try {
     const event = req.body;
+
+    events.push(event);
 
     await axios.post("http://localhost:4000/events", event); // posts
     await axios.post("http://localhost:4001/events", event); // comments
@@ -22,6 +31,10 @@ app.post("/events", async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+app.get("/events", (req: Request, res: Response) => {
+  res.status(200).send(events);
 });
 
 app.listen(4005, () => {
