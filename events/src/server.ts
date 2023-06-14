@@ -22,18 +22,19 @@ app.post("/events", async (req: Request, res: Response) => {
 
     events.push(event);
 
-    await axios.post("http://localhost:4000/events", event); // posts
-    await axios.post("http://localhost:4001/events", event); // comments
-    await axios.post("http://localhost:4002/events", event); // query
-    await axios.post("http://localhost:4003/events", event); // moderation
+    await axios.post("http://posts-clusterip-srv:4000/events", event); // posts
+    await axios.post("http://comments-srv:4001/events", event); // comments
+    await axios.post("http://query-srv:4002/events", event); // query
+    await axios.post("http://moderation-srv:4003/events", event); // moderation
 
+    console.log("Received event:", event.type);
     res.status(200).json({ status: event.type });
   } catch (error) {
     console.log(error);
   }
 });
 
-app.get("/events", (req: Request, res: Response) => {
+app.get("/events", (_req: Request, res: Response) => {
   res.status(200).send(events);
 });
 
