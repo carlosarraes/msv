@@ -10,7 +10,7 @@ const PostCreate = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await axios.post("http://localhost:4000/posts", { title });
+    await axios.post("http://posts.com/posts/create", { title });
 
     setTitle("");
   };
@@ -18,7 +18,7 @@ const PostCreate = () => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-1/4 mt-2">
       <label htmlFor="title" className="text-sm">
-        Title
+        Title of the post
       </label>
       <input
         name="title"
